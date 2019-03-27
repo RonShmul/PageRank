@@ -4,6 +4,7 @@ graph = {}
 mapper = {}
 page_rank_list = []
 
+
 def load_graph(path):
     """
     loads csv file and creates 2 dictionaries: mapper which maps node name to node id
@@ -49,8 +50,32 @@ def load_graph(path):
         dest_node.list_of_in.append(src_id)
 
 
+def initial_pr():
+    N = len(graph)
+    for (key, value) in graph.items():
+        value.page_rank = 1/N
+
+
 def calculate_page_rank(b=0.85, e=0.001):
-    pass
+    initial_pr()
+    pr_sum = 0
+    #(the big while): todo: while the sum of all abs|current_pr - temp|
+    iter_num = 0
+    while iter_num < 20 and pr_sum > e:
+        calculate_ranks(b)
+        for (key, value) in graph.items():
+            pr_sum += abs(value.page_rank - value.prev_pr)
+        iter_num += 1
+
+
+def calculate_ranks(b):
+    for (key, value) in graph.items():
+        # update previous page rank- move all current to prev
+        value.prev_pr = value.page_rank
+        if len(value.list_of_in) > 0:
+            for item in value.list_of_in:
+            # for i in value.list_of_in:
+            #   beta* (prev_rank(i)/len(i.list_of_out))
 
 
 def get_PageRank(node_name):
