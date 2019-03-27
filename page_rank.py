@@ -124,5 +124,4 @@ p = 'Wikipedia_votes.csv'
 load_graph(p)
 calculate_page_rank()
 # print(graph)
-# print(get_all_PageRank())
 top = Get_top_nodes(4)
