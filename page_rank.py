@@ -59,7 +59,6 @@ def initial_pr():
 def calculate_page_rank(b=0.85, e=0.001):
     initial_pr()
     pr_sum = 0
-    #(the big while): todo: while the sum of all abs|current_pr - temp|
     iter_num = 0
     while iter_num < 20 and pr_sum > e:
         calculate_ranks(b)
@@ -69,13 +68,15 @@ def calculate_page_rank(b=0.85, e=0.001):
 
 
 def calculate_ranks(b):
+    S = 0
     for (key, value) in graph.items():
         # update previous page rank- move all current to prev
         value.prev_pr = value.page_rank
-        if len(value.list_of_in) > 0:
-            for item in value.list_of_in:
-            # for i in value.list_of_in:
-            #   beta* (prev_rank(i)/len(i.list_of_out))
+        value.page_rank = value.calculate_page_rank(b)
+        S += value.page_rank
+    factor = (1-S)/len(graph)
+    for (key, value) in graph.items():
+        value.page_rank += factor
 
 
 def get_PageRank(node_name):
