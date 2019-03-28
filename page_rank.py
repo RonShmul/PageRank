@@ -50,13 +50,15 @@ def load_graph(path):
             dest_node.list_of_in.append(src_id)
 
 
-def initial_pr():
-    N = len(graph)
-    for (key, value) in graph.items():
-        value.page_rank = 1/N
-
-
 def calculate_page_rank(b=0.85, e=0.001):
+    """
+    calculates the PageRank for each of the nodes in the graph with a given b (beta).
+    calculation will end after 20 iterations or when the difference between two iterations is smaller than a given e.
+    saves the results into a list (page_rank_list) that contains tuples (node_name, pageRank) sorted by pageRank from high to low.
+    :param b: float
+    :param e: float
+    :return: None
+    """
     global page_rank_list
     initial_pr()
     pr_sum = 0
@@ -68,23 +70,7 @@ def calculate_page_rank(b=0.85, e=0.001):
         for (key, value) in graph.items():
             pr_sum += abs(value.page_rank - value.prev_pr)
         iter_num += 1
-    page_rank_list = sorted(graph.items(), key=lambda kv: kv[1].page_rank, reverse=True)
-
-
-def calculate_ranks(b):
-    S = 0
-    for (key, value) in graph.items():
-        # update previous page rank- move all current to prev
-        value.prev_pr = value.page_rank
-        temp_rank = 0
-        for node_id in value.list_of_in:
-            node = graph[node_id]
-            temp_rank += b * (node.prev_pr / len(node.list_of_out))
-        value.page_rank = temp_rank
-        S += value.page_rank
-    factor = (1-S)/len(graph)
-    for (key, value) in graph.items():
-        value.page_rank += factor
+    page_rank_list = sorted([(value.name, value.page_rank) for value in graph.values()], key=lambda kv: kv[1], reverse=True)
 
 
 def get_PageRank(node_name):
@@ -119,9 +105,44 @@ def get_all_PageRank():
     """
     return page_rank_list
 
+def calculate_ranks(b):
+    """
+    helper function to calculate the pageRank for each node in the graph according to a given b (beta).
+    the node page_rank property is updated every iteration
+    :param b: float
+    :return: None
+    """
+    S = 0
+    for (key, value) in graph.items():
+        # update previous page rank- move all current to prev
+        value.prev_pr = value.page_rank
+        temp_rank = 0
+        for node_id in value.list_of_in:
+            node = graph[node_id]
+            temp_rank += b * (node.prev_pr / len(node.list_of_out))
+        value.page_rank = temp_rank
+        S += value.page_rank
+    factor = (1-S)/len(graph)
+    for (key, value) in graph.items():
+        value.page_rank += factor
 
-p = 'Wikipedia_votes.csv'
-load_graph(p)
+def initial_pr():
+    """
+    helper function to initial the nodes pageRank with 1/N when N is the number of nodes in the graph.
+    :return: None
+    """
+    N = len(graph)
+    for (key, value) in graph.items():
+        value.page_rank = 1/N
+
+
+
+
+p1 = 'Wikipedia_votes.csv'
+p2 = 'twitter.csv'
+p3 = 'reddit.csv'
+load_graph(p3)
 calculate_page_rank()
 # print(graph)
 top = Get_top_nodes(4)
+print(top)
