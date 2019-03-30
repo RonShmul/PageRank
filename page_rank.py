@@ -135,14 +135,24 @@ def initial_pr():
     for (key, value) in graph.items():
         value.page_rank = 1/N
 
+def get_top_10_from_file(path):
+    load_graph(path)
+    calculate_page_rank()
+    list_of_nodes = Get_top_nodes(10)
+    print(path)
+    [print(elem) for elem in list_of_nodes]
 
 
-
-p1 = 'Wikipedia_votes.csv'
-p2 = 'twitter.csv'
-p3 = 'reddit.csv'
-load_graph(p3)
-calculate_page_rank()
-# print(graph)
-top = Get_top_nodes(4)
-print(top)
+# p1 = 'Wikipedia_votes.csv'
+# p2 = 'twitter.csv'
+# p3 = 'reddit.csv'
+#
+# get_top_10_from_file(p1)
+# graph = {}
+# mapper = {}
+# page_rank_list = []
+# get_top_10_from_file(p2)
+# graph = {}
+# mapper = {}
+# page_rank_list = []
+# get_top_10_from_file(p3)
