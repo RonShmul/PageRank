@@ -1,5 +1,6 @@
 import csv
-from node import Node
+
+from PageRank.node import Node
 
 graph = {}
 mapper = {}
@@ -147,9 +148,9 @@ def get_top_10_from_file(path):
     [print(elem) for elem in list_of_nodes]
 
 
-# p1 = 'Wikipedia_votes.csv'
-# p2 = 'twitter.csv'
-# p3 = 'reddit.csv'
+# p1 = '../networks/Wikipedia_votes.csv'
+# p2 = '../networks/twitter.csv'
+# p3 = '../networks/reddit.csv'
 #
 # get_top_10_from_file(p1)
 # graph = {}
