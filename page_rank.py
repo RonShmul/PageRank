@@ -1,5 +1,6 @@
 import csv
 from node import Node
+
 graph = {}
 mapper = {}
 page_rank_list = []
@@ -105,6 +106,7 @@ def get_all_PageRank():
     """
     return page_rank_list
 
+
 def calculate_ranks(b):
     """
     helper function to calculate the pageRank for each node in the graph according to a given b (beta).
@@ -126,6 +128,7 @@ def calculate_ranks(b):
     for (key, value) in graph.items():
         value.page_rank += factor
 
+
 def initial_pr():
     """
     helper function to initial the nodes pageRank with 1/N when N is the number of nodes in the graph.
@@ -134,6 +137,7 @@ def initial_pr():
     N = len(graph)
     for (key, value) in graph.items():
         value.page_rank = 1/N
+
 
 def get_top_10_from_file(path):
     load_graph(path)
